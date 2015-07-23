@@ -1,0 +1,66 @@
+#include<iostream>
+
+using namespace std;
+int ar[6],size[6],N=6;
+
+void initialize( int Arr[ ], int N)
+{
+    for(int i = 0;i<N;i++)
+    {
+Arr[ i ] = i ;
+size[ i ] = 1;
+}
+}
+
+int root (int i)
+{
+    while(ar[ i ] != i)
+    {
+        ar[ i ] = ar[ ar[ i ] ] ;
+        i = ar[ i ];
+    }
+return i;
+}
+
+
+void Wunion(int Arr[ ],int size[ ],int A,int B)
+{
+    int root_A = root(A);
+    int root_B = root(B);
+    if(size[root_A] < size[root_B ])
+    {
+Arr[ root_A ] = Arr[root_B];
+size[root_B] += size[root_A];
+}
+    else
+    {
+Arr[ root_B ] = Arr[root_A];
+size[root_A] += size[root_B];
+}
+
+}
+bool find(int A,int B)
+{
+    if( root(A)==root(B) )       
+    return true;
+    else
+    return false;
+}
+
+int main(){
+initialize(ar,N);
+
+Wunion(ar,size,0,1);
+Wunion(ar,size,1,2);
+Wunion(ar,size,3,2);
+
+for(int i=0;i<N;i++)
+    cout<<ar[i]<<" ";
+
+    cout<<"\n";
+
+for(int i=0;i<N;i++)
+    cout<<size[i]<<" ";
+
+return 0;
+}
