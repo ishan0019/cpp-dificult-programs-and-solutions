@@ -1,0 +1,115 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<cstdio>
+#include <limits>
+
+typedef long long unsigned llu;
+#define pb push_back
+#define sc(a) scanf("%llu",&a)
+#define sci(a) scanf("%d",&a)
+#define F(i,a,b) for((llu) i =(llu)(a);i<=(llu)(b);++i)
+
+using namespace std;
+
+#define Fi(i,a,b) for( int i =(int)(a);i<=(int)(b);++i)
+queue < int > Q;
+vector< int >G[1005];
+vector< int >::iterator it;
+int dist[1005],prev[1005];
+bool visited[1005];
+
+
+inline void initialize(int s,int n){
+ dist[s] = 0;
+
+    for(int j=1;j<=n;j++){
+        {
+                if(s!=j){
+                visited[j] = false;
+                dist[j] = 99999;
+                }
+         }
+    }
+}
+inline void initialize2(){
+Q= queue<int>();
+
+Fi(i,0,1005) G[i].clear();
+
+}
+
+int tmp =0,mini=99999;   //numeric_limits<int>::max();
+
+inline void dijkstra(int start){
+
+    visited[start] = true;
+    mini=99999;
+   //cout<<"enterd\n"<<G[start].size();
+
+    for(it=G[start].begin();it!=G[start].end();it++){
+    {
+        if( visited[*it]==false){
+            //cout<<"\nit "<<*it;
+            Q.push(*it);
+            visited[*it]=true;
+           // cout<<"\ndist[start],dist[*it]: "<<dist[start]<<", "<<dist[*it];
+            if( ( dist[start] + 6 ) < dist[*it] )
+             {
+                 dist[*it] = (dist[start] + 6);
+                 mini=dist[*it];
+               //  cout<<"\ndist[*it]: "<<dist[*it];
+
+             }
+
+          }
+
+        }
+
+    }
+        while(!Q.empty()){
+            tmp = Q.front();
+            Q.pop();
+            dijkstra(tmp);
+
+        }
+    }
+
+
+int main(){
+int t,n,m,x,y,s;
+sci(t);
+
+while(t--){
+   sci(n);
+   sci(m);
+
+   while(m--){
+
+    sci(x);
+    sci(y);
+    G[x].pb(y);
+    G[y].pb(x);
+
+   }
+  
+   sci(s);
+    initialize(s,n);
+    dijkstra(s);
+
+     Fi(i,1,n){
+          //cout<<"\n dist[i] "<<dist[i];
+          if( visited[i] == false)printf("-1 ");
+          else {
+                if(i != s)
+                 printf("%d ",dist[i] );
+          }
+      }
+      printf("\n");
+      initialize2();
+}
+
+
+return 0;
+}
